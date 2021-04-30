@@ -4,6 +4,7 @@
 //! [`Frame`]. It can be used for animation, data visualization, game graphics,
 //! and more!
 use crate::{Backend, Defaults, Primitive, Renderer};
+use iced_native::image;
 use iced_native::layout;
 use iced_native::mouse;
 use iced_native::{
@@ -97,6 +98,7 @@ pub struct Canvas<Message, P: Program<Message>> {
     height: Length,
     program: P,
     phantom: PhantomData<Message>,
+    handle: image::Handle,
 }
 
 impl<Message, P: Program<Message>> Canvas<Message, P> {
@@ -109,6 +111,7 @@ impl<Message, P: Program<Message>> Canvas<Message, P> {
             height: Length::Units(Self::DEFAULT_SIZE),
             program,
             phantom: PhantomData,
+            handle: image::Handle::from_path("resources/image_1.png"),
         }
     }
 
@@ -198,6 +201,10 @@ where
         let translation = Vector::new(bounds.x, bounds.y);
         let cursor = Cursor::from_window_position(cursor_position);
 
+        let image_primitive = Primitive::Image {
+            handle: self.handle.clone(),
+            bounds,
+        };
         (
             Primitive::Translate {
                 translation,
@@ -207,7 +214,8 @@ where
                         .draw(bounds, cursor)
                         .into_iter()
                         .map(Geometry::into_primitive)
-                        .collect(),
+                        .collect()
+                        .push(image_primitive),
                 }),
             },
             self.program.mouse_interaction(bounds, cursor),
