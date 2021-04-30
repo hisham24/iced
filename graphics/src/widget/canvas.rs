@@ -214,7 +214,7 @@ where
                         .draw(bounds, cursor)
                         .into_iter()
                         .map(Geometry::into_primitive)
-                        .collect<Primitive>()
+                        .collect::<Primitive>()
                         .push(image_primitive),
                 }),
             },
