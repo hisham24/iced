@@ -219,7 +219,7 @@ where
         
         (
             Primitive::Group {
-                primitives: vec![primitive_translate],
+                primitives: vec![image_primitive, primitive_translate],
             },
             self.program.mouse_interaction(bounds, cursor),
         )
