@@ -111,7 +111,7 @@ impl<Message, P: Program<Message>> Canvas<Message, P> {
             height: Length::Units(Self::DEFAULT_SIZE),
             program,
             phantom: PhantomData,
-            handle: image::Handle::from_path("resources/image_1.png"),
+            handle: image::Handle::from_path("resources/image.png"),
         }
     }
 
