@@ -205,17 +205,18 @@ where
             handle: self.handle.clone(),
             bounds,
         };
-        (
-            Primitive::Translate {
-                translation,
-                content: Box::new(Primitive::Group {
-                    primitives: self
+        let mut primitive_vec = self
                         .program
                         .draw(bounds, cursor)
                         .into_iter()
                         .map(Geometry::into_primitive)
-                        .collect::<Primitive>()
-                        .push(image_primitive),
+                        .collect::<Vec<Primitive>>();
+        primitive_vec.push(image_primitive);
+        (
+            Primitive::Translate {
+                translation,
+                content: Box::new(Primitive::Group {
+                    primitives: primitive_vec
                 }),
             },
             self.program.mouse_interaction(bounds, cursor),
